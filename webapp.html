@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dinosaur Guessing Game</title>
+  <style>
+    body {
+      background: #f2f7fa;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .back-btn {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      background: #e6f2ee;
+      color: #4a7c59;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px 8px 12px;
+      font-size: 1.25em;
+      font: bold;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s, color 0.2s;
+      z-index: 100;
+    }
+    .back-btn:hover {
+      background: #c8e6d7;
+      color: #376144;
+    }
+    .game-container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 32px 40px;
+      text-align: center;
+      max-width: 400px;
+    }
+    h1 {
+      color: #4a7c59;
+      margin-bottom: 18px;
+    }
+    .dino-emoji {
+      font-size: 4em;
+      margin-bottom: 10px;
+      min-height: 1.2em;
+    }
+    .hint {
+      font-size: 1.1em;
+      color: #2d3a4b;
+      margin-bottom: 18px;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      background: #4a7c59;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 0;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .option-btn:hover:enabled {
+      background: #376144;
+    }
+    .option-btn:disabled {
+      background: #b0bec5;
+      cursor: not-allowed;
+    }
+    .message {
+      margin-top: 16px;
+      font-size: 1.1em;
+      min-height: 24px;
+    }
+    #playAgainBtn {
+      margin-top: 10px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 18px;
+      font-size: 1em;
+      cursor: pointer;
+      display: none;
+    }
+    #playAgainBtn:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <button class="back-btn" onclick="goBack()">
+    ⬅️ <span>Back</span>
+  </button>
+  <div class="game-container">
+    <h1>Dinosaur Guessing Game</h1>
+    <div id="dinoEmoji" class="dino-emoji"></div>
+    <div class="hint" id="hint"></div>
+    <div class="options" id="options"></div>
+    <button onclick="startGame()" id="playAgainBtn">Play Again</button>
+    <div class="message" id="message"></div>
+  </div>
+  <script>
+    // Assigning the best-available emoji for each dinosaur
+    const dinosaurs = [
+      {
+        name: "Tyrannosaurus",
+        hint: "Its name means 'tyrant lizard king'. One of the largest meat-eating dinosaurs.",
+        emoji: "🦖"
+      },
+      {
+        name: "Triceratops",
+        hint: "Famous for its three horns and large frill.",
+        emoji: "🦕"
+      },
+      {
+        name: "Stegosaurus",
+        hint: "Known for the plates along its back and spiked tail.",
+        emoji: "🦕"
+      },
+      {
+        name: "Velociraptor",
+        hint: "Small, fast, and smart. Star of many movies.",
+        emoji: "🦖"
+      },
+      {
+        name: "Brachiosaurus",
+        hint: "A long-necked giant that ate from the treetops.",
+        emoji: "🦕"
+      },
+      {
+        name: "Ankylosaurus",
+        hint: "Armored dinosaur with a club-like tail.",
+        emoji: "🦕"
+      },
+      {
+        name: "Spinosaurus",
+        hint: "Had a sail on its back and liked to swim.",
+        emoji: "🦖"
+      },
+      {
+        name: "Pteranodon",
+        hint: "A flying reptile, not technically a dinosaur.",
+        emoji: "🦅"
+      },
+      {
+        name: "Allosaurus",
+        hint: "A large predator, lived before T. rex.",
+        emoji: "🦖"
+      },
+      {
+        name: "Parasaurolophus",
+        hint: "Had a long, curved crest on its head.",
+        emoji: "🦕"
+      }
+    ];
+
+    let currentDino = null;
+    let options = [];
+    let gameActive = true;
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function generateOptions(correctName) {
+      const names = dinosaurs.map(d => d.name).filter(name => name !== correctName);
+      shuffle(names);
+      const wrongOptions = names.slice(0, 3);
+      const allOptions = shuffle([correctName, ...wrongOptions]);
+      return allOptions;
+    }
+
+    window.startGame = function() {
+      currentDino = dinosaurs[Math.floor(Math.random() * dinosaurs.length)];
+      options = generateOptions(currentDino.name);
+      gameActive = true;
+      document.getElementById('dinoEmoji').textContent = currentDino.emoji;
+      document.getElementById('hint').textContent = "Hint: " + currentDino.hint;
+      document.getElementById('message').textContent = "";
+      document.getElementById('playAgainBtn').style.display = "none";
+      renderOptions();
+    }
+
+    function renderOptions() {
+      const optionsDiv = document.getElementById('options');
+      optionsDiv.innerHTML = "";
+      options.forEach(option => {
+        const btn = document.createElement('button');
+        btn.textContent = option;
+        btn.className = "option-btn";
+        btn.onclick = () => checkGuess(option, btn);
+        btn.disabled = !gameActive;
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function disableAllOptions() {
+      document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+    }
+
+    window.checkGuess = function(selected, btn) {
+      if (!gameActive) return;
+      if (selected === currentDino.name) {
+        document.getElementById('message').textContent = `🎉 Correct! The dinosaur was ${currentDino.name}.`;
+        btn.style.background = "#28a745";
+        disableAllOptions();
+        document.getElementById('playAgainBtn').style.display = "inline-block";
+        gameActive = false;
+      } else {
+        document.getElementById('message').textContent = "❌ Nope! Try again.";
+        btn.style.background = "#dc3545";
+        btn.disabled = true;
+      }
+    }
+
+    // Back button functionality
+    function goBack() {
+      // You can change this to window.location = "yourhomepage.html";
+      // or any custom logic you want.
+      window.history.back();
+    }
+
+    // Start the first game on load
+    startGame();
+  </script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+body {
+    background: #fff;
+    color: #111;
+    font-family: 'Lora', Arial, sans-serif;
+    margin: 0;
+    padding: 0 0 40px 0;
+    box-sizing: border-box;
+    overflow-x: hidden; /* Prevents horizontal scroll */
+  }
+  
+  .navbar {
+    width: 100vw; /* Ensures navbar is only as wide as viewport */
+    max-width: 100vw;
+    background: whitesmoke;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    box-sizing: border-box;
+    overflow-x: auto; /* Allows scrolling if needed */
+  }
+  
+  .navbar-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .navbar-links a {
+    color: #111;
+    text-decoration: none;
+    font-size: 1em;
+    padding: 6px 16px;
+    border-radius: 6px;
+    border: 1px solid #111;
+    background: #fff;
+    transition: background 0.18s, color 0.18s;
+    white-space: nowrap;
+  }
+  
+  .navbar-links a:hover {
+    background: #111;
+    color: #fff;
+  }
+  
+  @media (max-width: 600px) {
+    .navbar {
+      padding: 10px 4vw;
+    }
+    .navbar-links a {
+      font-size: 0.98em;
+      padding: 6px 10px;
+    }
+  }
+  
+  
+  /* Centered h1 with background image */
+  .header-bg {
+    width: 100%;
+    background-image: url("../assets/img/mybackground.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0 60px 0; /* Top padding leaves space for navbar */
+    margin-top: 64px; /* Height of navbar to prevent overlap */
+  }
+  
+  .header-bg h1 {
+    color:black;
+    text-align: center;
+    font-size: 100px;
+    letter-spacing: 2px;
+    margin: 0;
+    padding: 32px 40px;
+    
+    background: none;         /* Remove background */
+    border-radius: 0;         /* Remove border-radius */
+    max-width: 90vw;
+  }
+  
+  
+  
+  /* List styles */
+  ol {
+    background: none;         /* Remove background */
+    border-radius: 0;         /* Remove border-radius */
+    box-shadow: none;         /* Remove box-shadow */
+    padding: 28px 32px 28px 48px;
+    margin: 60px 0 60px 0;
+    font-size: 1.1em;
+  }
+  
+  ol, ul {
+    display: inline-block;
+    text-align: left;     /* So list items align nicely under numbers/bullets */
+    padding-left: 40px;
+  }
+ 
+  
+  
+  .main-content {
+    /* Remove horizontal padding for gallery to go edge-to-edge */
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+  }
+  
+  .photo-gallery {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    justify-content: center;    /* Center images horizontally */
+    align-items: flex-start;
+    overflow-x: auto;
+    margin-bottom: 60px;
+    padding-bottom: 60px;
+    width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .photo-gallery img {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+    border: 1px solid #e0e0e0;
+    width: 180px;
+    height: auto;
+    object-fit: cover;
+    vertical-align: middle;
+    margin: 0;
+    flex: 0 0 auto;
+  }
+  
+  
+  
+  
+  /* Responsive iframe (YouTube) */
+  iframe {
+    display: block;
+    margin: 32px auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    max-width: 100%;
+  }
+  
+  /* Tableau graph at original size */
+  .tableauPlaceholder {
+    width: 1500px !important;
+    height: 1127px !important;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 0;
+    margin-top: 60px;
+  }
+  @media (max-width: 1600px) {
+    .tableauPlaceholder {
+      width: 100vw !important;
+      max-width: 100vw;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      border-radius: 0;
+    }
+  }
+  
+  
+  /* Go to Top floating button */
+  #goTopBtn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: #111;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-weight: 500;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: background 0.18s, color 0.18s;
+    z-index: 1000;
+    font-size: 1em;
+  }
+  #goTopBtn:hover {
+    background: #fff;
+    color: #111;
+    border: 1px solid #111;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .header-bg h1 {
+      font-size: 1.3em;
+      padding: 20px 8px;
+    }
+    .photo-gallery img {
+      width: 98vw;
+      max-width: 100%;
+      margin-bottom: 12px;
+    }
+    .navbar {
+      padding: 12px 10px;
+    }
+    .header-bg {
+      padding: 50px 0 30px 0;
+      margin-top: 56px;
+    }
+  }
+  
